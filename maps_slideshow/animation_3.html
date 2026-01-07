@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angled Monitor with Header and Captions</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        /* 
+           Main Layout: Flex Row
+           Left side: Text Column
+           Right side: Monitor
+        */
+        .main-layout {
+            display: flex;
+            align-items: center; /* Vertically center the text block vs the monitor */
+            justify-content: center;
+            width: 90%;
+            max-width: 1400px;
+            gap: 60px; /* Space between the text column and the monitor */
+        }
+
+        /* 
+           Left Column Wrapper 
+           Confines the CONST_TEXT and Captions to the same vertical stack
+        */
+        .left-column {
+            flex: 1; /* Takes up remaining space on the left */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Aligns everything to the right (towards monitor) */
+            justify-content: center;
+            text-align: right;
+        }
+
+        /* 
+           The Static Intro Text (CONST_TEXT) 
+           Now styled exactly like the caption text below it.
+        */
+        .static-intro {
+            margin-bottom: 40px; 
+            
+            /* Identical styling to .caption h3 */
+            font-style: italic;
+            font-size: 1.5rem;
+            line-height: 1.4;
+            color: #333;
+            
+            max-width: 100%; /* Ensure it aligns with container like captions */
+        }
+
+        /* Caption Container */
+        .caption-container {
+            position: relative;
+            width: 100%; 
+            height: 120px; /* Fixed height to prevent layout jumping */
+        }
+
+        .caption {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%; 
+            opacity: 0;
+            transition: opacity 0.75s ease-in-out;
+            text-align: right; 
+        }
+
+        .caption.active {
+            opacity: 1;
+        }
+
+        .caption h3 {
+            font-style: italic;
+            font-size: 1.5rem;
+            line-height: 1.4;
+            color: #333;
+            margin: 0;
+        }
+
+        /* RIGHT SIDE: Monitor Wrapper */
+        .monitor-wrapper {
+            perspective: 1200px; 
+            flex: 0 0 auto; 
+        }
+
+        .monitor-panel {
+            width: 800px;
+            height: 500px;
+            background-color: #ebeef2;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
+            
+            transform: rotateY(-15deg);
+            transform-style: preserve-3d;
+            transform-origin: center center;
+        }
+
+        .screen-container {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #333;
+            box-sizing: border-box;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.75s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-layout">
+        
+        <!-- LEFT COLUMN: Static Text + Dynamic Captions -->
+        <div class="left-column">
+            
+            <!-- CONST_TEXT: Styled to match captions -->
+            <div class="static-intro">
+                <h3>Smart mapping that delivers practical insight, informs decisions, promotes collaboration, and helps deliver effective nature recovery measures on the ground.</h3>
+            </div>
+
+            <!-- Synchronized Captions -->
+            <div class="caption-container">
+                <!-- Caption 1 -->
+                <div class="caption active">
+                    <h3>Easily produce detailed plans and profiling for hedgerow condition assessments across your land holding </h3>
+                </div>
+                <!-- Caption 2 -->
+                <div class="caption">
+                    <h3>Integrated Local Nature Recovery Strategy mapping to identify numerous funding opportunities</h3>
+                </div>
+                <!-- Caption 3 -->
+                <div class="caption">
+                    <h3>Automatically identify optimal opportunites for grassy field corners and woodland margins</h3>
+                </div>
+                <!-- Caption 4 -->
+                <div class="caption">
+                    <h3>View lost pond restoration opportunities and identify veteran trees from historic maps</h3>
+                </div>
+                <!-- Caption 5 -->
+                <div class="caption">
+                    <h3>View lost pond restoration opportunities and identify veteran trees from historic maps</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Angled Monitor -->
+        <div class="monitor-wrapper">
+            <div class="monitor-panel">
+                <div class="screen-container">
+                    <div class="slide active" style="background-image: url('hedgerowProfile_1.jpg');"></div>
+                    <div class="slide" style="background-image: url('lnrs_integration_2.JPG');"></div>
+                    <div class="slide" style="background-image: url('identifyAwkwardCorners.JPG');"></div>
+                    <div class="slide" style="background-image: url('ghostPonds.JPG');"></div>
+                    <div class="slide" style="background-image: url('ghostPonds_2.JPG');"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const captions = document.querySelectorAll('.caption');
+        
+        let currentIndex = 0;
+        const displayTime = 5000; 
+
+        function showNextContent() {
+            // Determine next index
+            const nextIndex = (currentIndex + 1) % slides.length;
+
+            // Remove active class from current items
+            slides[currentIndex].classList.remove('active');
+            captions[currentIndex].classList.remove('active');
+
+            // Add active class to next items
+            slides[nextIndex].classList.add('active');
+            captions[nextIndex].classList.add('active');
+
+            // Update index
+            currentIndex = nextIndex;
+        }
+
+        setInterval(showNextContent, displayTime);
+    </script>
+</body>
+</html>

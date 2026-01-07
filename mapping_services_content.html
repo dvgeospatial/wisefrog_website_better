@@ -1,41 +1,371 @@
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    .content-section {
+        padding: 180px 20px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .content-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Wisefrog Business Homepage</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #ffffff;
-            color: #061c02;
-            font-weight: bold;
+    .content-section p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: #061c02;
+        font-weight: normal; 
+    }
+
+    .bg-pale-green {
+        background-color: rgba(6, 28, 2, 0.08); 
+    }
+    .bg-white {
+        background-color: #ffffff;
+    }
+
+    .column-container {
+        display: flex;
+        justify-content: space-around;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .info-column {
+        flex: 1;
+        text-align: center;
+    }
+    .info-column img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    .info-column p {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #061c02;
+        font-weight: normal;
+    }
+
+    /* MAP SLIDESHOW STYLES */
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .static-intro {
+        text-align: center;
+        max-width: 900px;
+        margin-bottom: 60px;
+        font-style: italic;
+        font-size: 1.5rem;
+        line-height: 1.4;
+        color: #061c02;
+    }
+
+    .static-intro h3 {
+        font-style: italic;
+        font-size: 1.5rem;
+        line-height: 1.4;
+        color: #061c02;
+        margin: 0;
+        font-weight: normal;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .main-layout {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 60px;
+    }
+
+    .left-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        text-align: right;
+    }
+
+    .caption-container {
+        position: relative;
+        width: 100%;
+        height: 120px;
+    }
+
+    .caption {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.75s ease-in-out;
+        text-align: right;
+        pointer-events: none;
+    }
+
+    .caption.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .caption h3 {
+        font-style: italic;
+        font-size: 1.5rem;
+        line-height: 1.4;
+        color: #061c02;
+        margin: 0;
+        font-weight: normal;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .monitor-wrapper {
+        perspective: 1200px;
+        flex: 0 0 auto;
+    }
+
+    .monitor-panel {
+        width: 800px;
+        height: 500px;
+        background-color: #ebeef2;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
+        transform: rotateY(-15deg);
+        transform-style: preserve-3d;
+        transform-origin: center center;
+    }
+
+    .screen-container {
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid #333;
+        box-sizing: border-box;
+    }
+
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        z-index: 1;
+        transition: opacity 0.75s ease-in-out;
+    }
+
+    .slide.active {
+        opacity: 1;
+        z-index: 2;
+    }
+
+    /* BUTTON STYLES */
+    .button-container {
+        margin-top: 40px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        padding-left: calc((100% - 800px) / 2);
+    }
+
+    .find-out-more-btn {
+        background-color: #061c02;
+        color: #ffffff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 1.1rem;
+        font-weight: bold;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .find-out-more-btn:hover {
+        background-color: #0a2805;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .find-out-more-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* DOCS SLIDESHOW STYLES */
+    .slideshow-wrapper {
+        flex: 0 0 auto;
+    }
+
+    .doc-slideshow-container {
+        position: relative;
+        width: 800px;
+        height: 600px;
+        background-color: #ffffff;
+        overflow: hidden;
+    }
+
+    .doc-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        z-index: 0;
+        background-color: #ffffff;
+    }
+
+    .doc-slide.active {
+        opacity: 1;
+        z-index: 1;
+    }
+
+    .doc-caption {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        text-align: right;
+    }
+
+    .doc-caption.active {
+        opacity: 1;
+    }
+
+    .doc-caption h3 {
+        font-style: italic;
+        font-size: 1.5rem;
+        line-height: 1.4;
+        color: #333;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* RESPONSIVE ADJUSTMENTS */
+    @media (max-width: 1024px) {
+        .main-layout {
+            flex-direction: column;
+            gap: 30px;
         }
-
-        .services-text {
-            padding: 50px;
+        .left-column {
+            align-items: center;
         }
-    </style>
-</head>
+        .caption-container {
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .caption, .doc-caption {
+            position: relative;
+            text-align: center;
+            transform: none;
+            top: auto;
+            right: auto;
+            display: none;
+        }
+        .caption.active, .doc-caption.active {
+            display: block;
+        }
+        .monitor-panel {
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            transform: none;
+        }
+        .doc-slideshow-container {
+            width: 100%;
+            max-width: 600px;
+            height: 450px;
+        }
+        .button-container {
+            justify-content: center;
+            padding-left: 0;
+        }
+    }
 
-<body>
+    @media (max-width: 768px) {
+        .column-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        .info-column {
+            max-width: 400px;
+        }
+        .monitor-panel {
+            height: 250px;
+        }
+    }
+</style>
 
-    <main>
-        <div class="services-text">
-            <h2>Mapping Services</h2>
-            <ul>
-                <li>Online mapping</li>
-                <li>Unique environmental data products</li>
-                <li>SBI reports</li>
-                <li>Story maps</li>
-            </ul>
 
+<!-- SECTION: MAP SLIDESHOW WITH HEADER -->
+<section class="content-section bg-pale-green">
+    <div class="content-wrapper">
+        <div class="static-intro">
+            <h3>Smart mapping that delivers practical insight, informs decisions, promotes collaboration, and helps deliver effective nature recovery measures on the ground.</h3>
         </div>
-    </main>
 
-</body>
-</html>
+        <div class="main-layout">
+            <div class="left-column">
+                <div class="caption-container">
+                    <div class="caption active">
+                        <h3>Detailed plans and profiling for hedgerow condition assessments across your land holding</h3>
+                    </div>
+                    <div class="caption">
+                        <h3>Integrated Local Nature Recovery Strategy mapping to identify numerous funding opportunities</h3>
+                    </div>
+                    <div class="caption">
+                        <h3>Identify optimal opportunites for grassy field corners and woodland margins</h3>
+                    </div>
+                    <div class="caption">
+                        <h3>Locate lost ponds for restoration</h3>
+                    </div>
+                    <div class="caption">
+                        <h3>Locate lost ponds for restoration</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="monitor-wrapper">
+                <div class="monitor-panel">
+                    <div class="screen-container">
+                        <div class="slide active" style="background-image: url('maps_slideshow/hedgerowProfile_1.jpg');"></div>
+                        <div class="slide" style="background-image: url('maps_slideshow/lnrs_integration_2.JPG');"></div>
+                        <div class="slide" style="background-image: url('maps_slideshow/identifyAwkwardCorners.JPG');"></div>
+                        <div class="slide" style="background-image: url('maps_slideshow/ghostPonds.JPG');"></div>
+                        <div class="slide" style="background-image: url('maps_slideshow/ghostPonds_2.JPG');"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUTTON CONTAINER -->
+        <div class="button-container">
+            <button class="find-out-more-btn" onclick="window.location.href='mapDemoRequestForm.html'">Find out more</button>
+        </div>
+    </div>
+</section>
+
+
 
 

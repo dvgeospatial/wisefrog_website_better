@@ -247,6 +247,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadContent('homepage-content.html');
         });
+        
+        // Helper function to handle cross-browser scroll resetting
+        function resetScrollToTop() {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'auto'
+            });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
 
         function loadContent(contentFile) {
             fetch(contentFile)
@@ -258,6 +269,9 @@
                 })
                 .then(html => {
                     document.getElementById('content-container').innerHTML = html;
+                    
+                    // Force scroll to top immediately after content injection [web:3][web:12]
+                    resetScrollToTop();
 
                     // Initialize slideshows after content is loaded
                     initializeSlideshows();

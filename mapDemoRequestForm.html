@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Request a Map Demonstration</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #061c02;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Removed header styles but kept form-related styles below */
+
+        main {
+            flex: 1;
+            padding: 40px 20px; /* Adjusted padding since header is gone */
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative; 
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centers form vertically on page */
+        }
+
+        h1 {
+            text-align: center;
+            color: #061c02;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            margin-top: 0;
+        }
+
+        /* --- FORM STYLES (PRESERVED) --- */
+        .contact-form {
+            background-color: #f9fbf9;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(6, 28, 2, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #061c02;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #061c02;
+            box-shadow: 0 0 0 2px rgba(6, 28, 2, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .submit-btn {
+            background-color: #061c02;
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #1a4d12;
+        }
+
+        @media (max-width: 768px) {
+            .contact-form {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- HEADER REMOVED -->
+    <!-- TOP WAVE SVG REMOVED -->
+    
+    <main>
+        <h1>Request a Map Demonstration</h1>
+        <!-- FORM SECTION PRESERVED -->
+        <form class="contact-form" action="send_mail.php" method="POST">
+            
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <input type="text" id="companyName" name="companyName">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" maxlength="1000" placeholder="Tell us about your project..."></textarea>
+                <div class="char-count" id="charCount">0 / 1000</div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </main>
+
+    <!-- FOOTER WAVE SVG REMOVED -->
+
+    <script>
+        // EXISTING CHAR COUNT SCRIPT
+        const textarea = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+
+        if(textarea){
+            textarea.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                charCount.textContent = `${currentLength} / 1000`;
+            });
+        }
+
+        // SUCCESS MESSAGE SCRIPT
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('status') === 'success') {
+            alert("Thank you! Your message has been sent successfully.");
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    </script>
+</body>
+</html>
